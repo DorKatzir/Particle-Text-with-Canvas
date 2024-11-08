@@ -1,6 +1,8 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box; /* prevents padding to scrolling */
+    
 }
 canvas{
     background-color: black;
@@ -11,5 +13,8 @@ canvas{
 
 input {
     position: absolute;
-    width: 100%;
+    width: calc(100% - 20px); /* minus margin prevent horizontal scroll */
+    padding: 10px;
+    margin: 10px;
+    z-index: 100;
 }
