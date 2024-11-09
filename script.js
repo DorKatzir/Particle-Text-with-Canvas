@@ -67,6 +67,7 @@ window.addEventListener('load', function() {
     // wrapText('Hello Dror and everyone else! This is a test to see how this works. I hope it works!')
 
     textInput.addEventListener('keyup', function() {
+        console.clear()
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         wrapText(textInput.value)
     })
