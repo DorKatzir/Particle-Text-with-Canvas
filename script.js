@@ -142,7 +142,7 @@ window.addEventListener('load', function() {
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('❤ 😊 🚀')
+    effect.wrapText('This shit is Awsome 🚀')
     effect.render()
 
     function animate() {
