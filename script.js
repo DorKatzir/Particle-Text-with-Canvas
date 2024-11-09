@@ -1,4 +1,5 @@
 window.addEventListener('load', function() {
+    const textInput = document.getElementById('textInput')
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d')
     canvas.width = window.innerWidth // covers all window horizontaly
@@ -21,11 +22,12 @@ window.addEventListener('load', function() {
     ctx.fillStyle = 'yellow'
     ctx.strokeStyle = 'white'
     
-    ctx.font = '80px helvetica'
+    ctx.font = '80px Trebuchet MS'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
 
     const maxTextWidth = canvas.width * 0.8
+    const lineHeight = 80
 
     function wrapText(text) {
 
@@ -48,15 +50,20 @@ window.addEventListener('load', function() {
             linesArray[lineCounter] = line
         }
 
+        let textHeight = lineHeight * lineCounter
+        let textY = canvas.height/2 - textHeight/2
         
         linesArray.forEach((line, i) => {
-            ctx.fillText(line, canvas.width/2, canvas.height/2 + i * 70)
+            ctx.fillText(line, canvas.width/2, textY + lineHeight * i)
         })
         console.log(linesArray)
     }
 
-    wrapText('Hello Dror and everyone else!')
+    // wrapText('Hello Dror and everyone else! This is a test to see how this works. I hope it works!')
 
-
+    textInput.addEventListener('keyup', function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        wrapText(textInput.value)
+    })
 
 })
