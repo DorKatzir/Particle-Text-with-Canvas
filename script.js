@@ -9,12 +9,12 @@ window.addEventListener('load', function() {
     class Particle {
         constructor(effect, x, y, color) {
             this.effect = effect
-            this.x = Math.random() * this.effect.canvasHeight
-            this.y = Math.random() * this.effect.canvasWidth
+            this.x = Math.random() * this.effect.canvasWidth
+            this.y = Math.random() * this.effect.canvasHeight
             this.color = color
             this.originX = x
             this.originY = y
-            this.size = this.effect.gap // size of the particle
+            this.size = this.effect.gap  // size of the particle
             this.dx = 0 // distance between particle and mouse horizontally
             this.dy = 0 // distance between particle and mouse vertically
             this.vx = 0 // horizontally velocity speed
@@ -142,7 +142,7 @@ window.addEventListener('load', function() {
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('Hello dror what\'s on your mind?')
+    effect.wrapText('❤ 😊 🚀')
     effect.render()
 
     function animate() {
