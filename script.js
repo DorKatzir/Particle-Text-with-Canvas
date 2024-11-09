@@ -3,6 +3,7 @@ window.addEventListener('load', function() {
     const ctx = canvas.getContext('2d')
     canvas.width = window.innerWidth // covers all window horizontaly
     canvas.height = window.innerHeight // covers all window vertically
+    console.log(ctx)
 
     ctx.lineWidth = 3
     ctx.strokeStyle = 'red'
@@ -17,19 +18,45 @@ window.addEventListener('load', function() {
     ctx.lineTo(canvas.width, canvas.height/2)
     ctx.stroke()
 
-    const text = 'Hello'
-    // const textX = 150
-    // const textY = 150
-    const textX = canvas.width / 2 // horizontal center of the canvas
-    const textY = canvas.height / 2 // vertical center of the canvas
-
     ctx.fillStyle = 'yellow'
     ctx.strokeStyle = 'white'
     
     ctx.font = '80px helvetica'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
-    ctx.fillText(text, textX, textY)
-    ctx.strokeText(text, textX, textY)
-    console.log(ctx)
+
+    const maxTextWidth = canvas.width * 0.8
+
+    function wrapText(text) {
+
+        let linesArray = []
+        let lineCounter = 0
+        let line = ''
+        let words = text.split(' ') // creates array of words from the text variable
+
+        for (let i = 0; i < words.length; i++) {
+
+            let testLine = line + words[i] + ' '
+
+            if (ctx.measureText(testLine).width > maxTextWidth) {
+                line = words[i] + ' '
+                lineCounter++
+            } else {
+                line = testLine
+            }
+
+            linesArray[lineCounter] = line
+        }
+
+        
+        linesArray.forEach((line, i) => {
+            ctx.fillText(line, canvas.width/2, canvas.height/2 + i * 70)
+        })
+        console.log(linesArray)
+    }
+
+    wrapText('Hello Dror and everyone else!')
+
+
+
 })
