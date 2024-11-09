@@ -1,4 +1,5 @@
 window.addEventListener('load', function() {
+
     const textInput = document.getElementById('textInput')
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d')
@@ -19,7 +20,11 @@ window.addEventListener('load', function() {
     ctx.lineTo(canvas.width, canvas.height/2)
     ctx.stroke()
 
-    ctx.fillStyle = 'yellow'
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)    
+    gradient.addColorStop(0.3, 'red')
+    gradient.addColorStop(0.5, 'fuchsia')
+    gradient.addColorStop(0.7, 'purple')
+    ctx.fillStyle = gradient
     ctx.strokeStyle = 'white'
     
     ctx.font = '80px Trebuchet MS'
