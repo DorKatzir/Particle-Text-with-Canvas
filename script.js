@@ -7,16 +7,33 @@ window.addEventListener('load', function() {
     console.log(ctx)
     
     class Particle {
-        constructor() {
-
+        constructor(effect, x, y, color) {
+            this.effect = effect
+            this.x = Math.random() * this.effect.canvasHeight
+            this.y = Math.random() * this.effect.canvasWidth
+            this.color = color
+            this.originX = x
+            this.originY = y
+            this.size = this.effect.gap // size of the particle
+            this.dx = 0 // distance between particle and mouse horizontally
+            this.dy = 0 // distance between particle and mouse vertically
+            this.vx = 0 // horizontally velocity speed
+            this.vy = 0 // vertically velocity speed
+            this.force = 0 // force of push particle at a certain speed
+            this.angle = 0 // direction of the push
+            this.distance = 0 // distance between particle and mouse
+            this.friction = Math.random() * 0.6 + 0.15 
+            this.ease = Math.random() * 0.1 + 0.005
         }
         
         draw() {
-            
+            this.effect.context.fillStyle = this.color
+            this.effect.context.fillRect(this.x, this.y, this.size, this.size)
         }
         
         update() {
-            
+            this.x += (this.originX - this.x) * this.ease
+            this.y += (this.originY - this.y) * this.ease
         }
         
     } // End of Particle class
@@ -96,6 +113,7 @@ window.addEventListener('load', function() {
         convertToParticles() {
             this.particles = []
             const pixels = this.context.getImageData(0, 0, this.canvasWidth, this.canvasHeight).data
+            this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
             for (let y = 0; y < this.canvasHeight; y += this.gap) {
                 for (let x = 0; x < this.canvasWidth; x += this.gap) {
                     const index = (y * this.canvasWidth + x) * 4
@@ -104,28 +122,36 @@ window.addEventListener('load', function() {
                         const red = pixels[index]
                         const green = pixels[index + 1]
                         const blue = pixels[index + 2]
-                        const color = `rgb(${red}, ${green}, ${blue})`
-                        
+                        const color = `rgb(${red}, ${green}, ${blue})` 
+                        this.particles.push(new Particle(this, x, y, color))
                     }
                 }
             }
+            console.log(this.particles)
 
         } // End of convertToParticles method
 
         render() {
+            this.particles.forEach(particle => {
+                particle.update()
+                particle.draw()
+            })
         } // END of render method
 
 
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('Hello dror what\'s on your mind today?')
-    
+    effect.wrapText('Hello dror what\'s on your mind?')
+    effect.render()
 
     function animate() {
-
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        effect.render()
+        requestAnimationFrame(animate)
     }
+    animate()
 
 
 
-})
+}) // END of window load Listener
