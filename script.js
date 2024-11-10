@@ -14,7 +14,7 @@ window.addEventListener('load', function() {
             this.color = color
             this.originX = x
             this.originY = y
-            this.size = this.effect.gap  // size of the particle
+            this.size = this.effect.gap - 1 // size of the particle
             this.dx = 0 // distance between particle and mouse horizontally
             this.dy = 0 // distance between particle and mouse vertically
             this.vx = 0 // horizontally velocity speed
@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
             this.angle = 0 // direction of the push
             this.distance = 0 // distance between particle and mouse
             this.friction = Math.random() * 0.6 + 0.15 
-            this.ease = Math.random() * 0.1 + 0.005
+            this.ease = Math.random() * 0.1 + 0.025
         }
         
         draw() {
@@ -32,8 +32,19 @@ window.addEventListener('load', function() {
         }
         
         update() {
-            this.x += (this.originX - this.x) * this.ease
-            this.y += (this.originY - this.y) * this.ease
+            this.dx = this.effect.mouse.x - this.x
+            this.dy = this.effect.mouse.y - this.y
+            this.distance = this.dx * this.dx + this.dy * this.dy
+            this.force = -this.effect.mouse.radius / this.distance
+
+            if (this.distance < this.effect.mouse.radius) {
+                this.angle = Math.atan2(this.dy, this.dx)
+                this.vx += this.force * Math.cos(this.angle)
+                this.vy += this.force * Math.sin(this.angle)
+            }
+
+            this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease
+            this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease
         }
         
     } // End of Particle class
@@ -46,7 +57,7 @@ window.addEventListener('load', function() {
             this.canvasHeight = canvasHeight
             this.textX = this.canvasWidth / 2
             this.textY = this.canvasHeight / 2
-            this.fontSize = 100
+            this.fontSize = 120
             this.lineHeight = this.fontSize * 0.96
             this.maxTextWidth = this.canvasWidth * 0.8
             this.textInput = document.getElementById('textInput')
@@ -81,9 +92,10 @@ window.addEventListener('load', function() {
             this.context.fillStyle = gradient 
             this.context.textAlign = 'center'
             this.context.textBaseline = 'middle'
-            this.context.lineWidth = 3
-            // this.context.strokeStyle = 'rgba(255, 255, 255, 0)'
+            // this.context.lineWidth = 3
+            // this.context.strokeStyle = 'rgb(255 255 255 / 0.1)'
             this.context.font = this.fontSize + 'px Trebuchet MS'
+            this.context.letterSpacing = '-3px'
             // breake multiple text
             let linesArray = []
             let words = text.split(' ')
@@ -122,12 +134,12 @@ window.addEventListener('load', function() {
                         const red = pixels[index]
                         const green = pixels[index + 1]
                         const blue = pixels[index + 2]
-                        const color = `rgb(${red}, ${green}, ${blue})` 
+                        const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`
                         this.particles.push(new Particle(this, x, y, color))
                     }
                 }
             }
-            console.log(this.particles)
+            // console.log(this.particles)
 
         } // End of convertToParticles method
 
@@ -142,7 +154,7 @@ window.addEventListener('load', function() {
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('This shit is Awsome 🚀')
+    effect.wrapText('Type your text')
     effect.render()
 
     function animate() {
