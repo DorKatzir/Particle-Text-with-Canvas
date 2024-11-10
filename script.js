@@ -75,16 +75,12 @@ window.addEventListener('load', function() {
                 x: 0,
                 y: 0
             }
-            window.addEventListener('mousemove', (e) => {
+            window.addEventListener('pointermove', (e) => {
                 this.mouse.x = e.x
                 this.mouse.y = e.y
                 // console.log(this.mouse.x, this.mouse.y)
             })
-            window.addEventListener('touchmove', (e) => {
-                this.mouse.x = e.x
-                this.mouse.y = e.y
-                // console.log(this.mouse.x, this.mouse.y)
-            })
+           
 
         } // End of constructor
 
