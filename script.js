@@ -94,7 +94,7 @@ window.addEventListener('load', function() {
             this.context.fillStyle = gradient 
             this.context.textAlign = 'center'
             this.context.textBaseline = 'middle'
-            this.context.font = this.fontSize + 'px Trebuchet MS, system-ui, -apple-system'
+            this.context.font = this.fontSize + 'px Impact, Trebuchet MS, system-ui, -apple-system'
             this.context.letterSpacing = '0px'
             // breake multiple text
             let linesArray = []
@@ -149,10 +149,18 @@ window.addEventListener('load', function() {
         } // END of render method
 
 
+        resize(width, height) {
+            this.canvasWidth = width
+            this.canvasHeight = height
+            this.textX = this.canvasWidth / 2
+            this.textY = this.canvasHeight / 2
+            this.maxTextWidth = this.canvasWidth * 0.8
+        }
+
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('Type something...')
+    effect.wrapText('Let\'s learn javascript')
     effect.render()
 
     function animate() {
@@ -161,6 +169,13 @@ window.addEventListener('load', function() {
         requestAnimationFrame(animate)
     }
     animate()
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        effect.resize(canvas.width, canvas.height)
+        effect.wrapText('Let\'s learn javascript')
+    })
 
 
 }) // END of window load Listener
