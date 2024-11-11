@@ -1,10 +1,11 @@
 window.addEventListener('load', function() {
 
     const canvas = document.getElementById('canvas1')
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { 
+        willReadFrequently: true
+    })
     canvas.width = window.innerWidth // covers all window horizontaly
     canvas.height = window.innerHeight // covers all window vertically
-    console.log(ctx)
     
     class Particle {
         constructor(effect, x, y, color) {
@@ -14,7 +15,7 @@ window.addEventListener('load', function() {
             this.color = color
             this.originX = x
             this.originY = y
-            this.size = this.effect.gap - 1 // size of the particle
+            this.size = this.effect.gap - 1.168 // size of the particle
             this.dx = 0 // distance between particle and mouse horizontally
             this.dy = 0 // distance between particle and mouse vertically
             this.vx = 0 // horizontally velocity speed
@@ -57,9 +58,10 @@ window.addEventListener('load', function() {
             this.canvasHeight = canvasHeight
             this.textX = this.canvasWidth / 2
             this.textY = this.canvasHeight / 2
-            this.fontSize = 120
-            this.lineHeight = this.fontSize * 0.96
+            this.fontSize = 80
+            this.lineHeight = this.fontSize 
             this.maxTextWidth = this.canvasWidth * 0.8
+            this.verticalOffset = -50
             this.textInput = document.getElementById('textInput')
             this.textInput.addEventListener('keyup', (e) => {
                 if (e.key !== ' ') {
@@ -69,16 +71,15 @@ window.addEventListener('load', function() {
             })
             // particle text
             this.particles = []
-            this.gap = 3
+            this.gap = 3 // minimum is 3
             this.mouse = {
-                radius: 40000,
+                radius: 20000,
                 x: 0,
                 y: 0
             }
             window.addEventListener('pointermove', (e) => {
                 this.mouse.x = e.x
                 this.mouse.y = e.y
-                // console.log(this.mouse.x, this.mouse.y)
             })
            
 
@@ -93,10 +94,8 @@ window.addEventListener('load', function() {
             this.context.fillStyle = gradient 
             this.context.textAlign = 'center'
             this.context.textBaseline = 'middle'
-            // this.context.lineWidth = 3
-            // this.context.strokeStyle = 'rgb(255 255 255 / 0.1)'
-            this.context.font = this.fontSize + 'px Trebuchet MS'
-            this.context.letterSpacing = '-3px'
+            this.context.font = this.fontSize + 'px Trebuchet MS, system-ui, -apple-system'
+            this.context.letterSpacing = '0px'
             // breake multiple text
             let linesArray = []
             let words = text.split(' ')
@@ -114,10 +113,9 @@ window.addEventListener('load', function() {
                 linesArray[lineCounter] = line
             }
             let textHeight = this.lineHeight * lineCounter
-            let textY = this.canvasHeight/2 - textHeight/2
+            let textY = this.canvasHeight/2 - textHeight/2 + this.verticalOffset
             linesArray.forEach((el, index) => {
                 this.context.fillText(el, this.canvasWidth/2, textY + (this.lineHeight * index))
-                // this.context.strokeText(el, this.canvasWidth/2, textY + (this.lineHeight * index))
             })
             this.convertToParticles()
 
@@ -140,7 +138,6 @@ window.addEventListener('load', function() {
                     }
                 }
             }
-            // console.log(this.particles)
 
         } // End of convertToParticles method
 
@@ -155,7 +152,7 @@ window.addEventListener('load', function() {
     } // End of Effect class
 
     const effect = new Effect(ctx, canvas.width, canvas.height)
-    effect.wrapText('Type your text')
+    effect.wrapText('Type something...')
     effect.render()
 
     function animate() {
@@ -164,7 +161,6 @@ window.addEventListener('load', function() {
         requestAnimationFrame(animate)
     }
     animate()
-
 
 
 }) // END of window load Listener
