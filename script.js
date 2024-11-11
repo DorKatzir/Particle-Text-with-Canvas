@@ -2,7 +2,8 @@ window.addEventListener('load', function() {
 
     const canvas = document.getElementById('canvas1')
     const ctx = canvas.getContext('2d', { 
-        willReadFrequently: true
+        willReadFrequently: true,
+        alpha: true
     })
     canvas.width = window.innerWidth // covers all window horizontaly
     canvas.height = window.innerHeight // covers all window vertically
@@ -23,8 +24,8 @@ window.addEventListener('load', function() {
             this.force = 0 // force of push particle at a certain speed
             this.angle = 0 // direction of the push
             this.distance = 0 // distance between particle and mouse 
-            this.friction = 0.9
-            this.ease = 0.09
+            this.friction = 0.8
+            this.ease = 0.2
         }
         
         draw() {
@@ -94,7 +95,7 @@ window.addEventListener('load', function() {
             this.context.fillStyle = gradient 
             this.context.textAlign = 'center'
             this.context.textBaseline = 'middle'
-            this.context.font = this.fontSize + 'px Impact, Trebuchet MS, system-ui, -apple-system'
+            this.context.font = this.fontSize + 'px Impact, -apple-system'
             this.context.letterSpacing = '0px'
             // breake multiple text
             let linesArray = []
