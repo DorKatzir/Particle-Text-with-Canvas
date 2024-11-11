@@ -22,9 +22,9 @@ window.addEventListener('load', function() {
             this.vy = 0 // vertically velocity speed
             this.force = 0 // force of push particle at a certain speed
             this.angle = 0 // direction of the push
-            this.distance = 0 // distance between particle and mouse
-            this.friction = Math.random() * 0.6 + 0.15 
-            this.ease = Math.random() * 0.1 + 0.025
+            this.distance = 0 // distance between particle and mouse 
+            this.friction = 0.9
+            this.ease = 0.09
         }
         
         draw() {
